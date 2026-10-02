@@ -156,6 +156,17 @@ h2 {
 .back:hover { border-bottom-style: solid; }
 .essay h1 { margin: 0; font-size: 34px; line-height: 1.2; font-weight: 600; letter-spacing: -0.015em; color: var(--choc); }
 .essay .sub { margin: 10px 0 0; font-size: 19px; line-height: 1.4; color: var(--muted); }
+.essay-meta { display: flex; align-items: center; justify-content: space-between; gap: 16px; margin-top: 14px; padding-bottom: 22px; border-bottom: 2px dotted var(--choc); }
+.essay-meta .date { margin: 0 !important; padding: 0 !important; border: 0 !important; }
+.copy-link {
+  display: inline-flex; align-items: center; gap: 7px;
+  padding: 7px 13px; border: 2px solid var(--choc); border-radius: 8px;
+  background: transparent; color: var(--choc);
+  font: inherit; font-size: 14px; font-weight: 500; cursor: pointer;
+  transition: background-color .18s ease, color .18s ease;
+}
+.copy-link:hover { background: var(--choc); color: #fff; }
+.copy-link svg { width: 16px; height: 16px; }
 .essay .date { margin: 14px 0 0; padding-bottom: 22px; border-bottom: 2px dotted var(--choc); color: var(--muted); font-size: 14.5px; font-weight: 500; }
 .essay .body { margin-top: 26px; font-size: 18px; line-height: 1.8; }
 .essay .body p { margin: 0 0 1.15em; }
@@ -172,6 +183,11 @@ h2 {
 .posts a:hover { background: var(--choc); color: #fff; }
 .posts a:hover .when, .posts a:hover .meta { color: #E9DCD4; }
 .posts .meta { display: block; }
+.posts .excerpt {
+  display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden;
+  margin-top: 8px; max-width: 64ch; color: var(--muted); font-size: 15.5px; line-height: 1.6;
+}
+.posts a:hover .excerpt { color: #E9DCD4; }
 
 /* CV */
 .cv-bar { width: 100%; max-width: 980px; display: flex; justify-content: flex-end; gap: 10px; margin-bottom: 14px; }

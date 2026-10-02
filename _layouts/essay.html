@@ -51,7 +51,13 @@
       <a class="back" href="/#writing">All writing</a>
       <h1>{{ page.title }}</h1>
       {% if page.subtitle %}<p class="sub">{{ page.subtitle }}</p>{% endif %}
-      <p class="date">{{ page.year }}</p>
+      <div class="essay-meta">
+        <p class="date">{{ page.year }}</p>
+        <button class="copy-link" type="button" id="copy-link" data-url="https://clairetaeyoon.com{{ page.url }}">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M10 14a4 4 0 0 0 5.66 0l3-3a4 4 0 0 0-5.66-5.66l-1 1"/><path d="M14 10a4 4 0 0 0-5.66 0l-3 3a4 4 0 0 0 5.66 5.66l1-1"/></svg>
+          <span>Copy link</span>
+        </button>
+      </div>
       <div class="body">
 {{ content }}
       </div>
@@ -76,6 +82,25 @@
     var pager = document.getElementById("pager");
     if (html) pager.innerHTML = html; else pager.remove();
     document.getElementById("year").textContent = new Date().getFullYear();
+  })();
+
+  // Copy this essay's link
+  (function () {
+    var btn = document.getElementById("copy-link");
+    if (!btn) return;
+    var label = btn.querySelector("span");
+    btn.addEventListener("click", function () {
+      var url = btn.dataset.url;
+      var done = function () {
+        label.textContent = "Link copied";
+        setTimeout(function () { label.textContent = "Copy link"; }, 2000);
+      };
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(url).then(done, function () { window.prompt("Copy this link:", url); });
+      } else {
+        window.prompt("Copy this link:", url);
+      }
+    });
   })();
 </script>
 </body>

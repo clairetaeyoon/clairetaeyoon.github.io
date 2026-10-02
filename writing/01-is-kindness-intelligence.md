@@ -1,6 +1,7 @@
 ---
 layout: essay
 title: "Is Kindness a Form of Intelligence?"
+subtitle: "Why AI Apocalypse Might Not Happen After All"
 year: "2026"
 description: "If kindness is a form of intelligence, an AI that surpasses human intelligence may also prove kinder than we fear. An essay by Claire Taeyoon Kim."
 permalink: /writing/is-kindness-intelligence/

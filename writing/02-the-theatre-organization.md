@@ -1,6 +1,7 @@
 ---
 layout: essay
 title: "The Theatre Organization"
+subtitle: "The Inefficiency Paradox of AI"
 year: "2026"
 description: "When generative AI writes the worksheet, the essay, and the grade, human participation becomes ritual. An essay on the theatre organization by Claire Taeyoon Kim."
 permalink: /writing/the-theatre-organization/

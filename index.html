@@ -264,7 +264,8 @@
     }
     wp.innerHTML = '<h2>Writing</h2><ul class="posts">' + POSTS.map(p =>
       '<li><a href="' + postHref(p) + '"' + (p.file ? ' target="_blank" rel="noopener"' : '') + '><span class="when">' + esc(p.year) + '</span><span><span class="title">' + esc(p.title) + '</span>' +
-      (p.subtitle ? '<span class="meta">' + esc(p.subtitle) + '</span>' : '') + '</span></a></li>'
+      (p.subtitle ? '<span class="meta">' + esc(p.subtitle) + '</span>' : '') +
+      (p.excerpt ? '<span class="excerpt">' + esc(p.excerpt) + '</span>' : '') + '</span></a></li>'
     ).join("") + '</ul>';
   }
   renderWritingList();
