@@ -1,0 +1,82 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>{{ page.title }} | Claire Taeyoon Kim</title>
+<meta name="description" content="{{ page.description }}">
+<meta name="author" content="Claire Taeyoon Kim">
+<link rel="canonical" href="https://clairetaeyoon.com{{ page.url }}">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="Claire Taeyoon Kim">
+<meta property="og:title" content="{{ page.title }}">
+<meta property="og:description" content="{{ page.description }}">
+<meta property="og:url" content="https://clairetaeyoon.com{{ page.url }}">
+<meta property="og:image" content="https://clairetaeyoon.com/profile.jpg">
+<meta name="twitter:card" content="summary">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Article",
+  "headline": {{ page.title | jsonify }},
+  "description": {{ page.description | jsonify }},
+  "url": "https://clairetaeyoon.com{{ page.url }}",
+  "datePublished": "{{ page.year }}",
+  "inLanguage": "en",
+  "author": { "@type": "Person", "name": "Claire Taeyoon Kim", "url": "https://clairetaeyoon.com/" }
+}
+</script>
+<link rel="icon" href="/favicon.ico" sizes="any">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Google+Sans+Flex:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/style.css">
+</head>
+<body class="page-essay">
+<div class="frame">
+
+  <nav aria-label="Main">
+    <div class="tabs">
+      <a href="/#about">About</a>
+      <a href="/#research">Research</a>
+      <a href="/#writing" aria-current="page">Writing</a>
+      <a href="/#cv">CV</a>
+    </div>
+  </nav>
+
+  <main>
+    <article class="essay">
+      <a class="back" href="/#writing">All writing</a>
+      <h1>{{ page.title }}</h1>
+      {% if page.subtitle %}<p class="sub">{{ page.subtitle }}</p>{% endif %}
+      <p class="date">{{ page.year }}</p>
+      <div class="body">
+{{ content }}
+      </div>
+      <nav class="pager" id="pager" aria-label="More writing"></nav>
+    </article>
+  </main>
+
+  <footer>© <span id="year">2026</span> Claire Taeyoon Kim</footer>
+</div>
+
+<script src="/writing/posts.js"></script>
+<script>
+  // Previous / next links, in the order of writing/posts.js
+  (function () {
+    var posts = (window.POSTS || []).filter(function (p) { return p.slug; });
+    var here = location.pathname.replace(/\/+$/, "").split("/").pop();
+    var i = posts.findIndex(function (p) { return p.slug === here; });
+    var esc = function (t) { return String(t).replace(/[&<>"]/g, function (c) { return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]; }); };
+    var html = "";
+    if (i > 0) html += '<a href="/writing/' + posts[i - 1].slug + '/"><small>Previous</small>' + esc(posts[i - 1].title) + "</a>";
+    if (i >= 0 && i < posts.length - 1) html += '<a class="next" href="/writing/' + posts[i + 1].slug + '/"><small>Next</small>' + esc(posts[i + 1].title) + "</a>";
+    var pager = document.getElementById("pager");
+    if (html) pager.innerHTML = html; else pager.remove();
+    document.getElementById("year").textContent = new Date().getFullYear();
+  })();
+</script>
+</body>
+</html>

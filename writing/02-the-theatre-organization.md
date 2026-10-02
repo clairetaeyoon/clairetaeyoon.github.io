@@ -1,4 +1,10 @@
-# The Theatre Organization
+---
+layout: essay
+title: "The Theatre Organization"
+year: "2026"
+description: "When generative AI writes the worksheet, the essay, and the grade, human participation becomes ritual. An essay on the theatre organization by Claire Taeyoon Kim."
+permalink: /writing/the-theatre-organization/
+---
 
 Since *The Digital Houyhnhnms* ran on the front page of *The Korea Economic Daily* in 2024, the inverted worldview it describes between humans and AI has only grown more persuasive. Of course, what *The Digital Houyhnhnms* proposes remains provocative and remotely extreme. How, then, might we describe the relationship between humans and AI as it stands right now? This essay sets out to diagnose humans who have become actors, and a human world that has accordingly become a theatre.
 

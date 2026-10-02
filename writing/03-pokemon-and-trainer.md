@@ -1,4 +1,11 @@
-# Pokémon and Trainer
+---
+layout: essay
+title: "Pokémon and Trainer"
+subtitle: "An Alternative Model of Human-AI Relationship"
+year: "2026"
+description: "An alternative model of the human-AI relationship, grounded in transparency and accountability and borrowed from Pokémon and their Trainers. An essay by Claire Taeyoon Kim."
+permalink: /writing/pokemon-and-trainer/
+---
 
 If theatre organizations inevitably produce inefficiency, how should we resolve it? Leaving AI to do everything with no human involvement at all is neither realistic nor the right direction for thinking about models of coexistence. What we need is a reinterpretation of our role as actors standing on the stage of the theatre organization. In searching for an alternative model for that reinterpretation, one cannot help but think of the most complex and sophisticated partnership known to modern humanity: none other than the relationship between Pokémon and Trainer(!) We must take on the role of Trainer so that AI can perform as our Pokémon. Given that AI programs develop by being trained, the fit seems almost too neat.
 
