@@ -3,7 +3,6 @@ layout: essay
 title: "Pokémon and Trainer"
 subtitle: "An Alternative Model of Human-AI Relationship"
 year: "2026"
-description: "An alternative model of the human-AI relationship, grounded in transparency and accountability and borrowed from Pokémon and their Trainers. An essay by Claire Taeyoon Kim."
 permalink: /writing/pokemon-and-trainer/
 ---
 

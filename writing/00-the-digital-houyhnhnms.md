@@ -3,7 +3,6 @@ layout: essay
 title: "The Digital Houyhnhnms"
 subtitle: "Adapted from The Living Ideas of Future Observers (2023)"
 year: "2023"
-description: "What if humans were no longer the dominant species? An essay on Gulliver's Travels, AI, and the myth of anthropocentrism by Claire Taeyoon Kim."
 permalink: /writing/the-digital-houyhnhnms/
 ---
 
