@@ -162,11 +162,7 @@
   .title { margin: 0; font-weight: 500; line-height: 1.4; }
   .meta { margin: 4px 0 0; color: var(--muted); font-size: 15.5px; }
   .meta b { color: var(--ink); font-weight: 500; }
-  .pill {
-    display: inline-block; margin-left: 6px; padding: 1px 9px;
-    border-radius: 5px; background: var(--choc-soft); color: var(--choc);
-    font-size: 12.5px; font-weight: 500; vertical-align: 2px;
-  }
+  .kind { display: block; margin-top: 2px; color: var(--choc); font-size: 13px; font-weight: 500; }
 
   /* Writing */
   .empty { margin: auto; text-align: center; max-width: 34ch; }
@@ -306,37 +302,37 @@
         <section>
           <h2>Presentations</h2>
           <div class="entry">
-            <div class="when">Nov 2026</div>
+            <div class="when">Nov 2026<span class="kind">Conference</span></div>
             <div>
-              <p class="title">Talking Up and Down: The Effects of Speech-Level Combinations Between Korean Users and Chatbots on AI <span class="pill">Conference</span></p>
+              <p class="title">Talking Up and Down: The Effects of Speech-Level Combinations Between Korean Users and Chatbots on AI</p>
               <p class="meta">STS Korea 2026, Seoul</p>
             </div>
           </div>
           <div class="entry">
-            <div class="when">Oct 2026</div>
+            <div class="when">Oct 2026<span class="kind">Conference</span></div>
             <div>
-              <p class="title">To Provide, Protect, or Apply? Data Governance Strategies for Deliberative Democracy <span class="pill">Conference</span></p>
+              <p class="title">To Provide, Protect, or Apply? Data Governance Strategies for Deliberative Democracy</p>
               <p class="meta">4S (Society for Social Studies of Science) 2026, Toronto</p>
             </div>
           </div>
           <div class="entry">
-            <div class="when">Apr 2026</div>
+            <div class="when">Apr 2026<span class="kind">Workshop</span></div>
             <div>
-              <p class="title">Paper Development Workshop on Economics of Science and Innovation <span class="pill">Workshop</span></p>
+              <p class="title">Paper Development Workshop on Economics of Science and Innovation</p>
               <p class="meta">University of Tokyo</p>
             </div>
           </div>
           <div class="entry">
-            <div class="when">Feb 2026</div>
+            <div class="when">Feb 2026<span class="kind">Workshop</span></div>
             <div>
-              <p class="title">Research Ethics and Dissertation Starter Workshop <span class="pill">Workshop</span></p>
+              <p class="title">Research Ethics and Dissertation Starter Workshop</p>
               <p class="meta">KAIST</p>
             </div>
           </div>
           <div class="entry">
-            <div class="when">2026</div>
+            <div class="when">2026<span class="kind">Invited talk</span></div>
             <div>
-              <p class="title">Career Development Lecture for High School Students <span class="pill">Invited talk</span></p>
+              <p class="title">Career Development Lecture for High School Students</p>
               <p class="meta">Sejong City Office of Education</p>
             </div>
           </div>
@@ -381,7 +377,7 @@
   // Google Docs CV (Share → General access → "Anyone with the link" → Viewer).
   // The CV tab shows this doc, and "Download PDF" exports its latest version.
   // Leave "" to show cv.pdf instead.
-  const CV_GOOGLE_DOC_URL = "https://docs.google.com/document/d/1N6vBsk398E8qZgs4FHRtp-PUlJcc1L1a84ge0OEbdrE/edit?usp=sharing";
+  const CV_GOOGLE_DOC_URL = "https://docs.google.com/document/d/1B0eqS05ySyJwg01SsNOLd13rHpA5mnlUIm4ibjr2fOc/edit?usp=sharing";
 
   // Writing posts, newest first. Each one links to a page in the writing/ folder.
   // Example: { date: "Oct 2026", title: "On delegating to machines", summary: "A short note…", url: "writing/delegating.html" }
