@@ -165,12 +165,27 @@
   .kind { display: block; margin-top: 2px; color: var(--choc); font-size: 13px; font-weight: 500; }
 
   /* Writing */
+  .essay { max-width: 680px; margin: 0 auto; }
+  .back { display: inline-block; color: var(--choc); font-size: 15px; font-weight: 500; text-decoration: none; border-bottom: 2px dotted var(--choc); padding-bottom: 1px; margin-bottom: 28px; }
+  .back:hover { border-bottom-style: solid; }
+  .essay h1 { margin: 0; font-size: 34px; line-height: 1.2; font-weight: 600; letter-spacing: -0.015em; color: var(--choc); }
+  .essay .sub { margin: 10px 0 0; font-size: 19px; line-height: 1.4; color: var(--muted); }
+  .essay .date { margin: 14px 0 0; padding-bottom: 22px; border-bottom: 2px dotted var(--choc); color: var(--muted); font-size: 14.5px; font-weight: 500; }
+  .essay .body { margin-top: 26px; font-size: 18px; line-height: 1.8; }
+  .essay .body p { margin: 0 0 1.15em; }
+  .essay .body em { font-style: italic; }
+  .pager { display: flex; justify-content: space-between; gap: 24px; margin-top: 40px; padding-top: 20px; border-top: 1px solid var(--line); }
+  .pager a { color: var(--choc); text-decoration: none; font-weight: 500; font-size: 15.5px; max-width: 48%; }
+  .pager a:hover { text-decoration: underline; }
+  .pager small { display: block; color: var(--muted); font-weight: 400; font-size: 13px; margin-bottom: 2px; }
+  .pager .next { text-align: right; margin-left: auto; }
   .empty { margin: auto; text-align: center; max-width: 34ch; }
   .empty p { color: var(--muted); margin: 0; }
   .posts { list-style: none; margin: 0; padding: 0; }
   .posts a { display: grid; grid-template-columns: 92px 1fr; gap: 20px; padding: 16px 12px; margin: 0 -12px; border-top: 1px solid var(--line); text-decoration: none; color: var(--ink); border-radius: 8px; transition: background-color .18s ease, color .18s ease; }
   .posts a:hover { background: var(--choc); color: #fff; }
   .posts a:hover .when, .posts a:hover .meta { color: #E9DCD4; }
+  .posts .meta { display: block; }
 
   /* CV */
   .cv-bar { width: 100%; max-width: 980px; display: flex; justify-content: flex-end; gap: 10px; margin-bottom: 14px; }
@@ -197,6 +212,8 @@
     .about h1 { font-size: 36px; }
     .panel { overflow: visible; padding-right: 0; }
     .entry, .posts a { grid-template-columns: 1fr; gap: 2px; }
+    .essay h1 { font-size: 28px; }
+    .essay .body { font-size: 17px; }
     .cv-frame { height: 75vh; flex: none; }
     .cv-bar { justify-content: center; }
   }
@@ -366,6 +383,7 @@
   <footer>© <span id="year">2026</span> Claire Taeyoon Kim</footer>
 </div>
 
+<script src="writing/marked.min.js"></script>
 <script>
   /* =========================================================
      SETTINGS — edit these lines to update the site
@@ -379,9 +397,16 @@
   // Leave "" to show cv.pdf instead.
   const CV_GOOGLE_DOC_URL = "https://docs.google.com/document/d/1B0eqS05ySyJwg01SsNOLd13rHpA5mnlUIm4ibjr2fOc/edit?usp=sharing";
 
-  // Writing posts, newest first. Each one links to a page in the writing/ folder.
-  // Example: { date: "Oct 2026", title: "On delegating to machines", summary: "A short note…", url: "writing/delegating.html" }
-  const POSTS = [];
+  // Writing, in the order they should appear.
+  // To add a piece: put a .md file in the writing/ folder, then add one line here.
+  //   slug     → the web address (clairetaeyoon.com/#writing/slug)
+  //   file     → the file name inside writing/ (a .md essay, or a .pdf)
+  //   subtitle → optional
+  const POSTS = [
+    { slug: "is-kindness-intelligence", file: "01-is-kindness-intelligence.md", date: "2026", title: "Is Kindness a Form of Intelligence?" },
+    { slug: "the-theatre-organization", file: "02-the-theatre-organization.md", date: "2026", title: "The Theatre Organization" },
+    { slug: "pokemon-and-trainer", file: "03-pokemon-and-trainer.md", date: "2026", title: "Pokémon and Trainer", subtitle: "An Alternative Model of Human-AI Relationship" },
+  ];
 
   /* ========================================================= */
 
@@ -408,22 +433,54 @@
     }
   }
 
-  // Writing list
+  // Writing: a list at #writing, and each piece at #writing/<slug>
   const wp = document.getElementById("writing-panel");
-  if (POSTS.length) {
+  const esc = t => String(t).replace(/[&<>"]/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" })[c]);
+  const postHref = p => p.file.endsWith(".pdf") ? "writing/" + p.file : "#writing/" + p.slug;
+
+  function renderWritingList() {
+    wp.style.display = "";
+    if (!POSTS.length) {
+      wp.style.display = "flex";
+      wp.innerHTML = '<div class="empty"><h2>Writing</h2><p>Essays and notes will appear here soon.</p></div>';
+      return;
+    }
     wp.innerHTML = '<h2>Writing</h2><ul class="posts">' + POSTS.map(p =>
-      '<li><a href="' + p.url + '"><span class="when">' + p.date + '</span><span><span class="title">' + p.title + '</span>' +
-      (p.summary ? '<span class="meta" style="display:block">' + p.summary + '</span>' : '') + '</span></a></li>'
+      '<li><a href="' + postHref(p) + '"' + (p.file.endsWith(".pdf") ? ' target="_blank" rel="noopener"' : '') + '><span class="when">' + esc(p.date) + '</span><span><span class="title">' + esc(p.title) + '</span>' +
+      (p.subtitle ? '<span class="meta">' + esc(p.subtitle) + '</span>' : '') + '</span></a></li>'
     ).join("") + '</ul>';
-  } else {
-    wp.style.display = "flex";
-    wp.innerHTML = '<div class="empty"><h2>Writing</h2><p>Essays and notes will appear here soon.</p></div>';
+  }
+
+  async function renderEssay(slug) {
+    const i = POSTS.findIndex(p => p.slug === slug);
+    if (i < 0) { location.hash = "#writing"; return; }
+    const p = POSTS[i], prev = POSTS[i - 1], next = POSTS[i + 1];
+    wp.style.display = "";
+    wp.scrollTop = 0;
+    document.title = p.title + " | Claire Taeyoon Kim";
+    let body = "";
+    try {
+      const res = await fetch("writing/" + p.file);
+      if (!res.ok) throw new Error();
+      const md = (await res.text()).replace(/^#\s.*\n+/, "");   // the page shows the title itself
+      body = window.marked ? marked.parse(md) : md.split(/\n{2,}/).map(t => "<p>" + esc(t) + "</p>").join("");
+    } catch (e) {
+      body = '<p>This piece couldn’t load. Open the site at clairetaeyoon.com to read it.</p>';
+    }
+    wp.innerHTML = '<article class="essay"><a class="back" href="#writing">All writing</a>' +
+      '<h1>' + esc(p.title) + '</h1>' + (p.subtitle ? '<p class="sub">' + esc(p.subtitle) + '</p>' : '') +
+      '<p class="date">' + esc(p.date) + '</p><div class="body">' + body + '</div>' +
+      '<nav class="pager" aria-label="More writing">' +
+      (prev ? '<a href="' + postHref(prev) + '"><small>Previous</small>' + esc(prev.title) + '</a>' : '') +
+      (next ? '<a class="next" href="' + postHref(next) + '"><small>Next</small>' + esc(next.title) + '</a>' : '') +
+      '</nav></article>';
   }
 
   // Tab switching with the URL hash, so back/forward and shared links work
   const views = ["about", "research", "writing", "cv"];
   function show() {
-    const id = views.includes(location.hash.slice(1)) ? location.hash.slice(1) : "about";
+    const [first, sub] = location.hash.slice(1).split("/");
+    const id = views.includes(first) ? first : "about";
     views.forEach(v => document.getElementById(v).classList.toggle("active", v === id));
     document.querySelectorAll(".tabs a").forEach(a => {
       if (a.dataset.view === id) a.setAttribute("aria-current", "page");
@@ -431,6 +488,7 @@
     });
     if (id === "cv" && !cvEmbed.src) cvEmbed.src = cvSrc;
     document.title = id === "about" ? "Claire Taeyoon Kim" : ({ research: "Research", writing: "Writing", cv: "CV" })[id] + " | Claire Taeyoon Kim";
+    if (id === "writing") { if (sub) renderEssay(sub); else renderWritingList(); }
   }
   window.addEventListener("hashchange", () => { show(); window.scrollTo(0, 0); });
   show();
