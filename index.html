@@ -4,18 +4,438 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Claire Taeyoon Kim</title>
+<meta name="description" content="Claire Taeyoon Kim — research on information policy, AI-enabled decision making, and responsible innovation.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Google+Sans+Flex:wght@300;400;500;600&display=swap" rel="stylesheet">
 <style>
-  body { margin: 0; min-height: 100vh; display: grid; place-items: center;
-         font-family: Georgia, serif; background: #f6f7f5; color: #1f2622; }
-  main { padding: 24px; text-align: center; }
-  h1 { font-weight: normal; font-size: 2rem; margin: 0 0 .5rem; }
-  p { margin: 0; color: #5b665f; }
+  /* ---------- Tokens ---------- */
+  :root {
+    --choc: #4A2A1D;        /* chocolate brown: the one accent */
+    --choc-soft: #F4EEEA;   /* pale tint for quiet backgrounds */
+    --ink: #1D1917;
+    --muted: #6F6560;
+    --line: #E6E0DC;
+    --bg: #FFFFFF;
+    --font: "Google Sans Flex", "Google Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
+  }
+  * { box-sizing: border-box; }
+  [hidden] { display: none !important; }
+  html, body { margin: 0; background: var(--bg); color: var(--ink); }
+  body {
+    font-family: var(--font);
+    font-size: 17px;
+    line-height: 1.6;
+    font-weight: 400;
+    -webkit-font-smoothing: antialiased;
+  }
+  a { color: var(--choc); text-underline-offset: 3px; }
+  :focus-visible { outline: 2px solid var(--choc); outline-offset: 3px; }
+
+  /* ---------- Page frame: fits one screen on desktop ---------- */
+  .frame {
+    min-height: 100vh;
+    min-height: 100dvh;
+    display: grid;
+    grid-template-rows: auto 1fr auto;
+    padding: 28px 40px 20px;
+    max-width: 1280px;
+    margin: 0 auto;
+  }
+
+  /* ---------- Navigation: joined chocolate-outlined cells ---------- */
+  nav { display: flex; justify-content: center; }
+  .tabs {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(120px, 1fr));
+    border: 2px solid var(--choc);
+    border-radius: 10px;
+    overflow: hidden;
+  }
+  .tabs a {
+    display: block;
+    padding: 11px 22px;
+    text-align: center;
+    text-decoration: none;
+    color: var(--choc);
+    font-weight: 500;
+    font-size: 16px;
+    letter-spacing: 0.01em;
+    transition: background-color .18s ease, color .18s ease;
+  }
+  .tabs a + a { border-left: 2px solid var(--choc); }
+  .tabs a:hover, .tabs a[aria-current="page"] { background: var(--choc); color: #fff; }
+  .tabs a:focus-visible { outline-offset: -5px; outline-color: #fff; }
+
+  /* ---------- Views ---------- */
+  main { min-height: 0; display: flex; justify-content: center; padding: 32px 0 12px; }
+  .view { width: 100%; display: none; min-height: 0; }
+  .view.active { display: flex; }
+
+  /* About */
+  #about { align-items: center; justify-content: center; }
+  .about {
+    display: grid;
+    grid-template-columns: minmax(260px, 380px) minmax(0, 560px);
+    align-items: center;
+    justify-content: center;
+    gap: 64px;
+    width: 100%;
+  }
+  .photo-wrap { display: flex; }
+  .photo {
+    width: 100%;
+    height: auto;
+    max-height: calc(100dvh - 200px);
+    aspect-ratio: 3 / 4;
+    object-fit: cover;
+    border-radius: 10px;
+    display: block;
+    background: var(--choc-soft);
+  }
+  .about h1 {
+    margin: 0 0 10px;
+    font-size: clamp(38px, 4vw, 56px);
+    line-height: 1.05;
+    font-weight: 600;
+    letter-spacing: -0.02em;
+    color: var(--choc);
+  }
+  .affil { margin: 0; color: var(--muted); font-size: 17px; line-height: 1.5; }
+  .bio { margin: 22px 0 26px; max-width: 54ch; font-size: 17.5px; line-height: 1.7; }
+  .links { display: flex; flex-wrap: wrap; gap: 8px 28px; }
+  .link {
+    display: inline-flex; align-items: center; gap: 8px;
+    color: var(--choc); font-size: 16px; font-weight: 500;
+    text-decoration: none;
+    border-bottom: 2px dotted var(--choc);
+    padding-bottom: 2px;
+  }
+  a.link:hover { border-bottom-style: solid; }
+  .link svg { width: 18px; height: 18px; flex: none; }
+  .link.soon { color: var(--muted); border-bottom-color: var(--line); cursor: default; }
+  .btn {
+    display: inline-flex; align-items: center; gap: 8px;
+    padding: 10px 18px;
+    border: 2px solid var(--choc);
+    border-radius: 8px;
+    color: var(--choc);
+    background: transparent;
+    text-decoration: none;
+    font: inherit; font-weight: 500; font-size: 15px;
+    cursor: pointer;
+    transition: background-color .18s ease, color .18s ease;
+  }
+  .btn:hover { background: var(--choc); color: #fff; }
+  .btn svg { width: 17px; height: 17px; flex: none; }
+
+  /* Research: page fixed, inner panel scrolls */
+  #research, #writing, #cv { flex-direction: column; align-items: center; }
+  .panel {
+    width: 100%; max-width: 860px;
+    min-height: 0; flex: 1;
+    overflow-y: auto;
+    padding: 4px 20px 24px 4px;
+    scrollbar-width: thin;
+    scrollbar-color: var(--line) transparent;
+  }
+  .panel section + section { margin-top: 40px; }
+  h2 {
+    margin: 0 0 16px;
+    font-size: 22px;
+    font-weight: 600;
+    color: var(--choc);
+    letter-spacing: -0.01em;
+  }
+  .entry {
+    display: grid;
+    grid-template-columns: 92px 1fr;
+    gap: 20px;
+    padding: 14px 0;
+    border-top: 1px solid var(--line);
+  }
+  .entry:last-child { border-bottom: 1px solid var(--line); }
+  .when { color: var(--muted); font-weight: 500; font-size: 15px; padding-top: 1px; }
+  .title { margin: 0; font-weight: 500; line-height: 1.4; }
+  .meta { margin: 4px 0 0; color: var(--muted); font-size: 15.5px; }
+  .meta b { color: var(--ink); font-weight: 500; }
+  .pill {
+    display: inline-block; margin-left: 6px; padding: 1px 9px;
+    border-radius: 5px; background: var(--choc-soft); color: var(--choc);
+    font-size: 12.5px; font-weight: 500; vertical-align: 2px;
+  }
+
+  /* Writing */
+  .empty { margin: auto; text-align: center; max-width: 34ch; }
+  .empty p { color: var(--muted); margin: 0; }
+  .posts { list-style: none; margin: 0; padding: 0; }
+  .posts a { display: grid; grid-template-columns: 92px 1fr; gap: 20px; padding: 16px 12px; margin: 0 -12px; border-top: 1px solid var(--line); text-decoration: none; color: var(--ink); border-radius: 8px; transition: background-color .18s ease, color .18s ease; }
+  .posts a:hover { background: var(--choc); color: #fff; }
+  .posts a:hover .when, .posts a:hover .meta { color: #E9DCD4; }
+
+  /* CV */
+  .cv-bar { width: 100%; max-width: 980px; display: flex; justify-content: flex-end; gap: 10px; margin-bottom: 14px; }
+  .cv-frame {
+    width: 100%; max-width: 980px; flex: 1; min-height: 0;
+    border: 2px solid var(--choc); border-radius: 10px; overflow: hidden; background: var(--choc-soft);
+  }
+  .cv-frame iframe { width: 100%; height: 100%; border: 0; display: block; background: #fff; }
+
+  footer { text-align: center; color: var(--muted); font-size: 13.5px; padding-top: 8px; }
+
+  /* ---------- Desktop: lock to one screen ---------- */
+  @media (min-width: 900px) and (min-height: 620px) {
+    .frame { height: 100vh; height: 100dvh; }
+  }
+
+  /* ---------- Smaller screens: stack and scroll normally ---------- */
+  @media (max-width: 899px) {
+    .frame { padding: 18px 16px 16px; }
+    .tabs { grid-template-columns: repeat(4, auto); }
+    .tabs a { padding: 9px 14px; font-size: 14.5px; }
+    .about { grid-template-columns: 1fr; gap: 28px; max-width: 520px; margin: 0 auto; }
+    .photo-wrap { max-width: 300px; margin: 0 auto; width: 100%; }
+    .about h1 { font-size: 36px; }
+    .panel { overflow: visible; padding-right: 0; }
+    .entry, .posts a { grid-template-columns: 1fr; gap: 2px; }
+    .cv-frame { height: 75vh; flex: none; }
+    .cv-bar { justify-content: center; }
+  }
+  @media (max-width: 380px) {
+    .tabs a { padding: 9px 10px; font-size: 13.5px; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    * { transition: none !important; }
+  }
 </style>
 </head>
 <body>
-<main>
-  <h1>Claire Taeyoon Kim</h1>
-  <p>This site is under construction.</p>
-</main>
+<div class="frame">
+
+  <nav aria-label="Main">
+    <div class="tabs">
+      <a href="#about" data-view="about">About</a>
+      <a href="#research" data-view="research">Research</a>
+      <a href="#writing" data-view="writing">Writing</a>
+      <a href="#cv" data-view="cv">CV</a>
+    </div>
+  </nav>
+
+  <main>
+    <!-- ================= ABOUT ================= -->
+    <section class="view" id="about" aria-label="About">
+      <div class="about">
+        <div class="photo-wrap">
+          <img class="photo" src="profile.jpg" alt="Portrait of Claire Taeyoon Kim" width="900" height="1200">
+        </div>
+
+        <div class="text">
+          <h1>Claire Taeyoon Kim</h1>
+          <p class="affil">Graduate School of Science and Technology Policy, KAIST</p>
+          <p class="bio">I am a master's student in the Graduate School of Science and Technology Policy at the Korea Advanced Institute of Science and Technology (KAIST). My research focuses on how our society understands AI and what our society can do to foster a more reliable future.</p>
+          <div class="links">
+            <a class="link" href="mailto:clayoon09@gmail.com">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3 7 9 6 9-6"/></svg>
+              clayoon09@gmail.com
+            </a>
+            <span class="link soon" id="scholar-link" title="Coming soon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2 9l10-5 10 5-10 5z"/><path d="M6 11v5c3 2 9 2 12 0v-5"/></svg>
+              Google Scholar
+            </span>
+            <a class="link" href="https://www.linkedin.com/in/claire-taeyoon-kim/" target="_blank" rel="noopener">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="3"/><path d="M8 10v7"/><path d="M8 7v.01"/><path d="M12 17v-7"/><path d="M16 17v-4a2 2 0 0 0-4 0"/></svg>
+              LinkedIn
+            </a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================= RESEARCH ================= -->
+    <section class="view" id="research" aria-label="Research">
+      <div class="panel" tabindex="0">
+        <section>
+          <h2>Publications</h2>
+          <div class="entry">
+            <div class="when">2026</div>
+            <div>
+              <p class="title">The Effects of User–Chatbot Honorific and Non-Honorific Speech Combinations on Chatbot Evaluation in Korean-Language AI Chatbot Interactions</p>
+              <p class="meta"><b>Claire Taeyoon Kim</b>, Soyun Jeon, and Hajin Lim. <i>Journal of the HCI Society of Korea</i>, 21(3), 101–111.</p>
+            </div>
+          </div>
+        </section>
+
+        <section>
+          <h2>Work in progress</h2>
+          <div class="entry">
+            <div class="when">Ongoing</div>
+            <div><p class="title">Delegation or Substitution: Identifying the Conditions for Citizens’ Acceptance of AI in Public Services through Conjoint Experiment</p></div>
+          </div>
+          <div class="entry">
+            <div class="when">Ongoing</div>
+            <div><p class="title">To Provide, Protect, or Apply? Data Governance Strategies for Deliberative Democracy</p></div>
+          </div>
+          <div class="entry">
+            <div class="when">Ongoing</div>
+            <div><p class="title">Transition of Policy Frames in Algorithmic Pricing: A Text Analysis of US State Legislations</p></div>
+          </div>
+          <div class="entry">
+            <div class="when">Ongoing</div>
+            <div>
+              <p class="title">Digital Divide in E-government and AI-government</p>
+              <p class="meta"><b>Claire Taeyoon Kim</b> and Junho Lee</p>
+            </div>
+          </div>
+        </section>
+
+        <section>
+          <h2>Funded research projects</h2>
+          <div class="entry">
+            <div class="when">2026–</div>
+            <div><p class="title">Research Security in International Scientific Collaboration</p></div>
+          </div>
+          <div class="entry">
+            <div class="when">2026–</div>
+            <div><p class="title">Future Cybersecurity Technologies</p></div>
+          </div>
+        </section>
+
+        <section>
+          <h2>Presentations</h2>
+          <div class="entry">
+            <div class="when">Nov 2026</div>
+            <div>
+              <p class="title">Talking Up and Down: The Effects of Speech-Level Combinations Between Korean Users and Chatbots on AI <span class="pill">Conference</span></p>
+              <p class="meta">STS Korea 2026, Seoul</p>
+            </div>
+          </div>
+          <div class="entry">
+            <div class="when">Oct 2026</div>
+            <div>
+              <p class="title">To Provide, Protect, or Apply? Data Governance Strategies for Deliberative Democracy <span class="pill">Conference</span></p>
+              <p class="meta">4S (Society for Social Studies of Science) 2026, Toronto</p>
+            </div>
+          </div>
+          <div class="entry">
+            <div class="when">Apr 2026</div>
+            <div>
+              <p class="title">Paper Development Workshop on Economics of Science and Innovation <span class="pill">Workshop</span></p>
+              <p class="meta">University of Tokyo</p>
+            </div>
+          </div>
+          <div class="entry">
+            <div class="when">Feb 2026</div>
+            <div>
+              <p class="title">Research Ethics and Dissertation Starter Workshop <span class="pill">Workshop</span></p>
+              <p class="meta">KAIST</p>
+            </div>
+          </div>
+          <div class="entry">
+            <div class="when">2026</div>
+            <div>
+              <p class="title">Career Development Lecture for High School Students <span class="pill">Invited talk</span></p>
+              <p class="meta">Sejong City Office of Education</p>
+            </div>
+          </div>
+        </section>
+      </div>
+    </section>
+
+    <!-- ================= WRITING ================= -->
+    <section class="view" id="writing" aria-label="Writing">
+      <div class="panel" tabindex="0" id="writing-panel"></div>
+    </section>
+
+    <!-- ================= CV ================= -->
+    <section class="view" id="cv" aria-label="CV">
+      <div class="cv-bar">
+        <a class="btn" id="cv-open" href="cv.pdf" target="_blank" rel="noopener">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 4h6v6"/><path d="M20 4 10 14"/><path d="M18 14v5a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1h5"/></svg>
+          Open in new tab
+        </a>
+        <a class="btn" id="cv-download" href="cv.pdf" download="Claire Taeyoon Kim CV.pdf">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 4v11"/><path d="m7 10 5 5 5-5"/><path d="M5 20h14"/></svg>
+          Download PDF
+        </a>
+      </div>
+      <div class="cv-frame">
+        <iframe id="cv-embed" title="Curriculum vitae" loading="lazy"></iframe>
+      </div>
+    </section>
+  </main>
+
+  <footer>© <span id="year">2026</span> Claire Taeyoon Kim</footer>
+</div>
+
+<script>
+  /* =========================================================
+     SETTINGS — edit these lines to update the site
+     ========================================================= */
+
+  // Google Scholar profile URL. Paste it between the quotes to make the link live.
+  const SCHOLAR_URL = "";
+
+  // Google Docs CV (Share → General access → "Anyone with the link" → Viewer).
+  // The CV tab shows this doc, and "Download PDF" exports its latest version.
+  // Leave "" to show cv.pdf instead.
+  const CV_GOOGLE_DOC_URL = "https://docs.google.com/document/d/1N6vBsk398E8qZgs4FHRtp-PUlJcc1L1a84ge0OEbdrE/edit?usp=sharing";
+
+  // Writing posts, newest first. Each one links to a page in the writing/ folder.
+  // Example: { date: "Oct 2026", title: "On delegating to machines", summary: "A short note…", url: "writing/delegating.html" }
+  const POSTS = [];
+
+  /* ========================================================= */
+
+  // Scholar button
+  // Until a URL is set, the label shows in grey and isn't clickable.
+  if (SCHOLAR_URL) {
+    const old = document.getElementById("scholar-link");
+    const a = document.createElement("a");
+    a.className = "link"; a.href = SCHOLAR_URL; a.target = "_blank"; a.rel = "noopener";
+    a.innerHTML = old.innerHTML; old.replaceWith(a);
+  }
+
+  // CV embed: Google Doc if given, otherwise the PDF
+  const cvEmbed = document.getElementById("cv-embed");
+  let cvSrc = "cv.pdf";
+  if (CV_GOOGLE_DOC_URL) {
+    const m = CV_GOOGLE_DOC_URL.match(/\/document\/d\/([^/]+)/);
+    if (m) {
+      cvSrc = "https://docs.google.com/document/d/" + m[1] + "/preview";
+      document.getElementById("cv-open").href = "https://docs.google.com/document/d/" + m[1] + "/view";
+      const dl = document.getElementById("cv-download");
+      dl.href = "https://docs.google.com/document/d/" + m[1] + "/export?format=pdf";
+      dl.removeAttribute("download");
+    }
+  }
+
+  // Writing list
+  const wp = document.getElementById("writing-panel");
+  if (POSTS.length) {
+    wp.innerHTML = '<h2>Writing</h2><ul class="posts">' + POSTS.map(p =>
+      '<li><a href="' + p.url + '"><span class="when">' + p.date + '</span><span><span class="title">' + p.title + '</span>' +
+      (p.summary ? '<span class="meta" style="display:block">' + p.summary + '</span>' : '') + '</span></a></li>'
+    ).join("") + '</ul>';
+  } else {
+    wp.style.display = "flex";
+    wp.innerHTML = '<div class="empty"><h2>Writing</h2><p>Essays and notes will appear here soon.</p></div>';
+  }
+
+  // Tab switching with the URL hash, so back/forward and shared links work
+  const views = ["about", "research", "writing", "cv"];
+  function show() {
+    const id = views.includes(location.hash.slice(1)) ? location.hash.slice(1) : "about";
+    views.forEach(v => document.getElementById(v).classList.toggle("active", v === id));
+    document.querySelectorAll(".tabs a").forEach(a => {
+      if (a.dataset.view === id) a.setAttribute("aria-current", "page");
+      else a.removeAttribute("aria-current");
+    });
+    if (id === "cv" && !cvEmbed.src) cvEmbed.src = cvSrc;
+    document.title = id === "about" ? "Claire Taeyoon Kim" : ({ research: "Research", writing: "Writing", cv: "CV" })[id] + " | Claire Taeyoon Kim";
+  }
+  window.addEventListener("hashchange", () => { show(); window.scrollTo(0, 0); });
+  show();
+  document.getElementById("year").textContent = new Date().getFullYear();
+</script>
 </body>
 </html>
